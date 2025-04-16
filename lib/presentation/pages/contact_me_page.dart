@@ -1,49 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:portfolio/core/constants/assets.dart';
 import 'package:portfolio/core/constants/colors.dart';
 import 'package:portfolio/core/constants/texts.dart';
 import 'package:portfolio/core/constants/code.dart';
+import 'package:portfolio/presentation/controllers/contact_me_controller.dart';
 import 'package:portfolio/presentation/widgets/custom_divider.dart';
 import 'package:portfolio/presentation/widgets/files_system.dart';
 import 'package:portfolio/presentation/widgets/syntax_highlighter.dart';
 
-class ContactMePage extends StatefulWidget {
+class ContactMePage extends GetView<ContactMeController> {
   const ContactMePage({super.key});
 
   @override
-  State<ContactMePage> createState() => _ContactMePageState();
-}
-
-class _ContactMePageState extends State<ContactMePage> {
-  final List<String> openedFiles = ["form"];
-  String? selectedFile = "form";
-
-  void openFile(String title) {
-    setState(() {
-      if (!openedFiles.contains(title)) {
-        openedFiles.add(title);
-      }
-      selectedFile = title;
-    });
-  }
-
-  void closeFile(String title) {
-    setState(() {
-      openedFiles.remove(title);
-      if (selectedFile == title) {
-        selectedFile = openedFiles.isNotEmpty ? openedFiles.last : null;
-      }
-    });
-  }
-
-  void selectFile(String title) {
-    setState(() {
-      selectedFile = title;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    var controller = Get.put(ContactMeController());
     return Row(
       children: [
         // Files system
@@ -56,15 +27,21 @@ class _ContactMePageState extends State<ContactMePage> {
             children: [
               ProjectItem(
                 title: "contact-info",
-                onFileTap: openFile,
+                onFileTap: controller.openFile,
                 children: [
                   FolderItem(
                     title: "personal",
                     color: AppColors.indigo,
-                    onFileTap: openFile,
+                    onFileTap: controller.openFile,
                     children: [
-                      FileItem(title: "email", onTap: () => openFile("email")),
-                      FileItem(title: "phone", onTap: () => openFile("phone")),
+                      FileItem(
+                        title: "email",
+                        onTap: () => controller.openFile("email"),
+                      ),
+                      FileItem(
+                        title: "phone",
+                        onTap: () => controller.openFile("phone"),
+                      ),
                     ],
                   ),
                 ],
@@ -72,9 +49,12 @@ class _ContactMePageState extends State<ContactMePage> {
               CustomDivider(width: 311, isVertical: false, thickness: 0.5),
               ProjectItem(
                 title: "contact-form",
-                onFileTap: openFile,
+                onFileTap: controller.openFile,
                 children: [
-                  FileItem(title: "form.dart", onTap: () => openFile("form")),
+                  FileItem(
+                    title: "form.dart",
+                    onTap: () => controller.openFile("form"),
+                  ),
                 ],
               ),
             ],
@@ -91,9 +71,9 @@ class _ContactMePageState extends State<ContactMePage> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      ...openedFiles.map(
+                      ...controller.openedFiles.map(
                         (file) => GestureDetector(
-                          onTap: () => selectFile(file),
+                          onTap: () => controller.selectFile(file),
                           child: Container(
                             width: 200,
                             height: 56,
@@ -106,7 +86,7 @@ class _ContactMePageState extends State<ContactMePage> {
                                 ),
                               ),
                               color:
-                                  selectedFile == file
+                                  controller.selectedFile.value == file
                                       ? AppColors.primary.withOpacity(0.1)
                                       : null,
                             ),
@@ -120,7 +100,7 @@ class _ContactMePageState extends State<ContactMePage> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () => closeFile(file),
+                                  onTap: () => controller.closeFile(file),
                                   child: Icon(
                                     Icons.close_rounded,
                                     color: AppColors.secondary,
@@ -148,11 +128,11 @@ class _ContactMePageState extends State<ContactMePage> {
                   Expanded(
                     flex: 2,
                     child:
-                        selectedFile == "email"
+                        controller.selectedFile.value == "email"
                             ? EmailPage()
-                            : selectedFile == "phone"
+                            : controller.selectedFile.value == "phone"
                             ? PhonePage()
-                            : selectedFile == "form"
+                            : controller.selectedFile.value == "form"
                             ? FormPage()
                             : SizedBox(),
                   ),
@@ -301,29 +281,8 @@ class FormPage extends StatelessWidget {
   }
 }
 
-class MobileEmulatorView extends StatefulWidget {
+class MobileEmulatorView extends GetView<ContactMeController> {
   const MobileEmulatorView({super.key});
-
-  @override
-  State<MobileEmulatorView> createState() => _MobileEmulatorViewState();
-}
-
-class _MobileEmulatorViewState extends State<MobileEmulatorView> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _messageController = TextEditingController();
-  bool _isSending = false;
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _messageController.dispose();
-    super.dispose();
-  }
-
-  void _sendEmail() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -349,7 +308,7 @@ class _MobileEmulatorViewState extends State<MobileEmulatorView> {
                   height: 550,
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Form(
-                    key: _formKey,
+                    key: GlobalKey<FormState>(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -364,7 +323,7 @@ class _MobileEmulatorViewState extends State<MobileEmulatorView> {
                         const SizedBox(height: 16),
                         _buildFormField(
                           "Name",
-                          controller: _nameController,
+                          controller: controller.nameController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your name';
@@ -375,7 +334,7 @@ class _MobileEmulatorViewState extends State<MobileEmulatorView> {
                         const SizedBox(height: 16),
                         _buildFormField(
                           "Email",
-                          controller: _emailController,
+                          controller: controller.emailController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -391,7 +350,7 @@ class _MobileEmulatorViewState extends State<MobileEmulatorView> {
                         const SizedBox(height: 16),
                         _buildFormField(
                           "Message",
-                          controller: _messageController,
+                          controller: controller.messageController,
                           maxLines: 4,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -403,13 +362,16 @@ class _MobileEmulatorViewState extends State<MobileEmulatorView> {
                         const Spacer(),
                         Center(
                           child: GestureDetector(
-                            onTap: _isSending ? null : _sendEmail,
+                            onTap:
+                                controller.isSending.value
+                                    ? null
+                                    : controller.sendEmail,
                             child: Container(
                               width: 200,
                               height: 40,
                               decoration: BoxDecoration(
                                 color:
-                                    _isSending
+                                    controller.isSending.value
                                         ? AppColors.indigo.withOpacity(0.7)
                                         : AppColors.indigo,
                                 boxShadow: [
@@ -421,7 +383,7 @@ class _MobileEmulatorViewState extends State<MobileEmulatorView> {
                               ),
                               child: Center(
                                 child:
-                                    _isSending
+                                    controller.isSending.value
                                         ? SizedBox(
                                           width: 20,
                                           height: 20,
