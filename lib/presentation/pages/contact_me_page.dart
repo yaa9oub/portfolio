@@ -1,4 +1,3 @@
-import 'package:email_sender/email_sender.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/core/constants/assets.dart';
 import 'package:portfolio/core/constants/colors.dart';
@@ -324,22 +323,7 @@ class _MobileEmulatorViewState extends State<MobileEmulatorView> {
     super.dispose();
   }
 
-  void _sendEmail() async {
-    //initialize EmailSender class
-    EmailSender emailSender = EmailSender();
-    //initialize send method to response variable
-    print(emailSender.server);
-    print(emailSender.url);
-    print(emailSender.errorCodes);
-
-    var response = await emailSender.sendMessage(
-      "seyf.yagoub@gmail.com",
-      "test",
-      "test",
-      "test",
-    );
-    print(response);
-  }
+  void _sendEmail() async {}
 
   @override
   Widget build(BuildContext context) {
