@@ -1,159 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:portfolio/core/constants/colors.dart';
 import 'package:portfolio/core/constants/texts.dart';
 import 'package:portfolio/core/constants/code.dart';
+import 'package:portfolio/presentation/controllers/about_me_controller.dart';
 import 'package:portfolio/presentation/widgets/custom_divider.dart';
 import 'package:portfolio/presentation/widgets/files_system.dart';
 import 'package:portfolio/presentation/widgets/syntax_highlighter.dart';
 
-class AboutMePage extends StatefulWidget {
+class AboutMePage extends GetView<AboutMeController> {
   const AboutMePage({super.key});
 
   @override
-  State<AboutMePage> createState() => _AboutMePageState();
-}
-
-class _AboutMePageState extends State<AboutMePage> {
-  final List<String> openedFiles = [];
-  String? selectedFile;
-
-  void openFile(String title) {
-    setState(() {
-      if (!openedFiles.contains(title)) {
-        openedFiles.add(title);
-      }
-      selectedFile = title;
-    });
-  }
-
-  void closeFile(String title) {
-    setState(() {
-      openedFiles.remove(title);
-      if (selectedFile == title) {
-        selectedFile = openedFiles.isNotEmpty ? openedFiles.last : null;
-      }
-    });
-  }
-
-  void selectFile(String title) {
-    setState(() {
-      selectedFile = title;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        //files system
-        Container(
-          width: 311,
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColors.stroke, width: 0.5),
-          ),
-          child: Column(
-            children: [
-              ProjectItem(
-                title: "about-me",
-                onFileTap: openFile,
+    var controller = Get.put(AboutMeController());
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        var isMobile = constraints.maxWidth < 600;
+        return isMobile
+            ? SizedBox(
+              width: Get.width,
+              height: Get.height,
+              child: ListView(
                 children: [
-                  FolderItem(
-                    title: "personal-info",
-                    color: AppColors.indigo,
-                    onFileTap: openFile,
-                    children: [
-                      FileItem(title: "bio", onTap: () => openFile("bio")),
-                      FileItem(
-                        title: "interests",
-                        onTap: () => openFile("interests"),
-                      ),
-                    ],
-                  ),
-                  FolderItem(
-                    title: "education",
-                    color: AppColors.teal,
-                    onFileTap: openFile,
-                    children: [
-                      FileItem(
-                        title: "high-school",
-                        onTap: () => openFile("high-school"),
-                      ),
-                      FileItem(
-                        title: "university",
-                        onTap: () => openFile("university"),
-                      ),
-                      FileItem(
-                        title: "scholarships",
-                        onTap: () => openFile("scholarships"),
-                      ),
-                      FileItem(title: "clubs", onTap: () => openFile("clubs")),
-                    ],
-                  ),
+                  FilesSystem(controller: controller, isMobile: isMobile),
+                  CodeViewer(controller: controller, isMobile: isMobile),
                 ],
               ),
-              CustomDivider(width: 311, isVertical: false, thickness: 0.5),
-              ProjectItem(
-                title: "contacts",
-                onFileTap: openFile,
-                children: [
-                  FileItem(
-                    title: "seyf.yagoub@gmail.com",
-                    icon: Icons.email_rounded,
-                  ),
-                  FileItem(
-                    title: "(+216) 99 101 001",
-                    icon: Icons.phone_android,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              //opened files
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
+            )
+            : Row(
+              children: [
+                //files system
+                FilesSystem(controller: controller),
+                Expanded(
+                  child: Column(
                     children: [
-                      ...openedFiles.map(
-                        (file) => GestureDetector(
-                          onTap: () => selectFile(file),
-                          child: Container(
-                            width: 200,
-                            height: 56,
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                right: BorderSide(
-                                  color: AppColors.secondary,
-                                  width: 0.5,
-                                ),
-                              ),
-                              color:
-                                  selectedFile == file
-                                      ? AppColors.primary.withOpacity(0.1)
-                                      : null,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //opened files
+                      SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Obx(
+                            () => Row(
                               children: [
-                                Text(
-                                  file,
-                                  style: AppTextStyles.bodyMedium.copyWith(
-                                    color: AppColors.secondary,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () => closeFile(file),
-                                  child: Icon(
-                                    Icons.close_rounded,
-                                    color: AppColors.secondary,
-                                    size: 16,
+                                ...controller.openedFiles.map(
+                                  (file) => GestureDetector(
+                                    onTap: () => controller.selectFile(file),
+                                    child: Container(
+                                      width: 200,
+                                      height: 56,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 24,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          right: BorderSide(
+                                            color: AppColors.secondary,
+                                            width: 0.5,
+                                          ),
+                                        ),
+                                        color:
+                                            controller.selectedFile.value ==
+                                                    file
+                                                ? AppColors.primary.withOpacity(
+                                                  0.1,
+                                                )
+                                                : null,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            file,
+                                            style: AppTextStyles.bodyMedium
+                                                .copyWith(
+                                                  color: AppColors.secondary,
+                                                ),
+                                          ),
+                                          GestureDetector(
+                                            onTap:
+                                                () =>
+                                                    controller.closeFile(file),
+                                            child: Icon(
+                                              Icons.close_rounded,
+                                              color: AppColors.secondary,
+                                              size: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -161,43 +99,144 @@ class _AboutMePageState extends State<AboutMePage> {
                           ),
                         ),
                       ),
+                      CustomDivider(
+                        width: double.infinity,
+                        thickness: 0.5,
+                        isVertical: false,
+                      ),
+                      CodeViewer(controller: controller),
                     ],
                   ),
                 ),
-              ),
-              CustomDivider(
-                width: double.infinity,
-                thickness: 0.5,
-                isVertical: false,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              ],
+            );
+      },
+    );
+  }
+}
+
+class CodeViewer extends StatelessWidget {
+  const CodeViewer({
+    super.key,
+    required this.controller,
+    this.isMobile = false,
+  });
+
+  final bool isMobile;
+  final AboutMeController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Obx(
+          () => SizedBox(
+            width: isMobile ? Get.width : Get.width * 0.5,
+            child:
+                controller.selectedFile.value == "bio"
+                    ? BioPage()
+                    : controller.selectedFile.value == "interests"
+                    ? InterestsPage()
+                    : controller.selectedFile.value == "high-school"
+                    ? HighSchoolPage()
+                    : controller.selectedFile.value == "university"
+                    ? UniversityPage()
+                    : controller.selectedFile.value == "scholarships"
+                    ? ScholarshipPage()
+                    : controller.selectedFile.value == "clubs"
+                    ? ClubsPage()
+                    : SizedBox(),
+          ),
+        ),
+        if (!isMobile) CustomDivider(height: Get.height * 0.8, thickness: 0.5),
+        if (!isMobile) Spacer(),
+      ],
+    );
+  }
+}
+
+class FilesSystem extends StatelessWidget {
+  const FilesSystem({
+    super.key,
+    required this.controller,
+    this.isMobile = false,
+  });
+
+  final AboutMeController controller;
+  final bool isMobile;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: isMobile ? Get.width : 311,
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.stroke, width: 0.5),
+      ),
+      child: Column(
+        children: [
+          ProjectItem(
+            title: "about-me",
+            onFileTap: controller.openFile,
+            children: [
+              FolderItem(
+                title: "personal-info",
+                color: AppColors.indigo,
+                onFileTap: controller.openFile,
                 children: [
-                  Expanded(
-                    flex: 2,
-                    child:
-                        selectedFile == "bio"
-                            ? BioPage()
-                            : selectedFile == "interests"
-                            ? InterestsPage()
-                            : selectedFile == "high-school"
-                            ? HighSchoolPage()
-                            : selectedFile == "university"
-                            ? UniversityPage()
-                            : selectedFile == "scholarships"
-                            ? ScholarshipPage()
-                            : selectedFile == "clubs"
-                            ? ClubsPage()
-                            : SizedBox(),
+                  FileItem(
+                    title: "bio",
+                    onTap: () => controller.openFile("bio"),
                   ),
-                  CustomDivider(height: 770, thickness: 0.5),
-                  Spacer(),
+                  FileItem(
+                    title: "interests",
+                    onTap: () => controller.openFile("interests"),
+                  ),
+                ],
+              ),
+              FolderItem(
+                title: "education",
+                color: AppColors.teal,
+                onFileTap: controller.openFile,
+                children: [
+                  FileItem(
+                    title: "high-school",
+                    onTap: () => controller.openFile("high-school"),
+                  ),
+                  FileItem(
+                    title: "university",
+                    onTap: () => controller.openFile("university"),
+                  ),
+                  FileItem(
+                    title: "scholarships",
+                    onTap: () => controller.openFile("scholarships"),
+                  ),
+                  FileItem(
+                    title: "clubs",
+                    onTap: () => controller.openFile("clubs"),
+                  ),
                 ],
               ),
             ],
           ),
-        ),
-      ],
+          CustomDivider(
+            width: double.infinity,
+            isVertical: false,
+            thickness: 0.5,
+          ),
+          ProjectItem(
+            title: "contacts",
+            onFileTap: controller.openFile,
+            children: [
+              FileItem(
+                title: "seyf.yagoub@gmail.com",
+                icon: Icons.email_rounded,
+              ),
+              FileItem(title: "(+216) 99 101 001", icon: Icons.phone_android),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
