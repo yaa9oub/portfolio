@@ -30,68 +30,74 @@ class MyFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 56,
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.secondary, width: 0.5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          width: double.infinity,
+          height: 56,
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.secondary, width: 0.5),
+          ),
+          child: ListView(
+            scrollDirection: Axis.horizontal,
             children: [
-              //main tab
-              Container(
-                height: 56,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
-                ),
-                child: Text(
-                  "find me in:",
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.secondary,
-                  ),
-                ),
-              ),
-              const CustomDivider(height: 56),
-              //social media tabs
-              MyTab(
-                text: "@github",
-                isSelected: false,
-                isLink: true,
-                onTap: () => _launchUrl("https://github.com/yaa9oub"),
-              ),
-              const CustomDivider(height: 56),
-              MyTab(
-                text: "@linkedin",
-                isSelected: false,
-                isLink: true,
-                onTap: () => _launchUrl("https://linkedin.com/in/your-profile"),
-              ),
-              const CustomDivider(height: 56),
-              MyTab(
-                text: "@youtube",
-                isSelected: false,
-                isLink: true,
-                onTap: () => _launchUrl("https://youtube.com/your-channel"),
-              ),
-              const CustomDivider(height: 56),
-              MyTab(
-                text: "@upwork",
-                isSelected: false,
-                isLink: true,
-                onTap:
-                    () => _launchUrl(
-                      "https://upwork.com/freelancers/your-profile",
+              Row(
+                children: [
+                  //main tab
+                  Container(
+                    height: 56,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
                     ),
+                    child: Text(
+                      "find me in:",
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                  ),
+                  const CustomDivider(height: 56),
+                  //social media tabs
+                  MyTab(
+                    text: "@github",
+                    isSelected: false,
+                    isLink: true,
+                    onTap: () => _launchUrl("https://github.com/yaa9oub"),
+                  ),
+                  const CustomDivider(height: 56),
+                  MyTab(
+                    text: "@linkedin",
+                    isSelected: false,
+                    isLink: true,
+                    onTap:
+                        () =>
+                            _launchUrl("https://linkedin.com/in/your-profile"),
+                  ),
+                  const CustomDivider(height: 56),
+                  MyTab(
+                    text: "@youtube",
+                    isSelected: false,
+                    isLink: true,
+                    onTap: () => _launchUrl("https://youtube.com/your-channel"),
+                  ),
+                  const CustomDivider(height: 56),
+                  MyTab(
+                    text: "@upwork",
+                    isSelected: false,
+                    isLink: true,
+                    onTap:
+                        () => _launchUrl(
+                          "https://upwork.com/freelancers/your-profile",
+                        ),
+                  ),
+                  const CustomDivider(height: 56),
+                ],
               ),
-              const CustomDivider(height: 56),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

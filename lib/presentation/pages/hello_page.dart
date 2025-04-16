@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:portfolio/core/constants/assets.dart';
 import 'package:portfolio/core/constants/code.dart';
 import 'package:portfolio/core/constants/colors.dart';
@@ -10,157 +11,205 @@ class HelloPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(left: 250),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Hello y'all. I am",
-                  style: AppTextStyles.bodyLarge.copyWith(
-                    color: AppColors.secondary,
-                  ),
-                ),
-                Text(
-                  "Seyf Yacoub",
-                  style: AppTextStyles.headingLarge.copyWith(
-                    color: AppColors.tertiary,
-                  ),
-                ),
-                Text(
-                  "> Software Engineer",
-                  style: AppTextStyles.headingMedium.copyWith(
-                    color: AppColors.indigo,
-                  ),
-                ),
-                Text(
-                  "> Mobile Developer",
-                  style: AppTextStyles.headingMedium.copyWith(
-                    color: AppColors.pink,
-                  ),
-                ),
-                Text(
-                  "> Flutter Enthusiast",
-                  style: AppTextStyles.headingMedium.copyWith(
-                    color: AppColors.stroke2,
-                  ),
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth <= 600;
+        final content = Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Hello y'all. I am",
+              style: AppTextStyles.bodyLarge.copyWith(
+                color: AppColors.secondary,
+                fontSize: isMobile ? 15 : 20,
+              ),
+            ),
+            Text(
+              "Seyf Yacoub",
+              style: AppTextStyles.headingLarge.copyWith(
+                color: AppColors.tertiary,
+                fontSize: isMobile ? 50 : 60,
+              ),
+            ),
+            Text(
+              "> Software Engineer",
+              style: AppTextStyles.headingMedium.copyWith(
+                color: AppColors.indigo,
+                fontSize: isMobile ? 20 : 30,
+              ),
+            ),
+            Text(
+              "> Mobile Developer",
+              style: AppTextStyles.headingMedium.copyWith(
+                color: AppColors.pink,
+                fontSize: isMobile ? 20 : 30,
+              ),
+            ),
+            Text(
+              "> Flutter Enthusiast",
+              style: AppTextStyles.headingMedium.copyWith(
+                color: AppColors.stroke2,
+                fontSize: isMobile ? 20 : 30,
+              ),
+            ),
+            const SizedBox(height: 56),
+            Text(
+              "// tools I use daily",
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.secondary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            SyntaxHighlighter(code: dailyToolsCode),
+          ],
+        );
 
-                SizedBox(height: 56),
-                Text(
-                  "// tools I use daily",
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.secondary,
+        final backgroundElements = Stack(
+          children: [
+            Positioned(
+              top: 100,
+              right: 400,
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.teal2,
+                      blurRadius: 120,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 230,
+              right: 350,
+              child: Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.indigo,
+                      blurRadius: 200,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 150,
+              right: 400,
+              child: Container(
+                width: 250,
+                height: 250,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.indigo,
+                      blurRadius: 200,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+
+        final imageSection = Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 500,
+            height: isMobile ? 400 : 600,
+            child: Image.asset(AppAssets.me, fit: BoxFit.fitHeight),
+          ),
+        );
+
+        if (isMobile) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: content,
+                ),
+                const SizedBox(height: 40),
+                SizedBox(
+                  height: 500,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 100,
+                        right: 20,
+                        child: Container(
+                          width: 200,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.teal2,
+                                blurRadius: 120,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 200,
+                        left: 20,
+                        child: Container(
+                          width: 300,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.indigo,
+                                blurRadius: 120,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      imageSection,
+                    ],
                   ),
                 ),
-                SizedBox(height: 8),
-                SyntaxHighlighter(code: dailyToolsCode),
-                // Row(
-                //   mainAxisSize: MainAxisSize.min,
-                //   children: [
-                //     Text(
-                //       "var ",
-                //       style: AppTextStyles.bodyMedium.copyWith(
-                //         color: AppColors.indigo,
-                //       ),
-                //     ),
-                //     Text(
-                //       " githubLink ",
-                //       style: AppTextStyles.bodyMedium.copyWith(
-                //         color: AppColors.teal,
-                //       ),
-                //     ),
-                //     Text(
-                //       " = ",
-                //       style: AppTextStyles.bodyMedium.copyWith(
-                //         color: AppColors.tertiary,
-                //       ),
-                //     ),
-                //     Text(
-                //       '"https://github.com/yaa9oub"',
-                //       style: AppTextStyles.bodyMedium.copyWith(
-                //         color: AppColors.pink,
-                //       ),
-                //     ),
-                //   ],
-                // ),
+                const SizedBox(height: 40),
               ],
             ),
-          ),
-        ),
-        Expanded(
-          child: Stack(
-            children: [
-              Positioned(
-                top: 150,
-                right: 450,
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.teal2,
-                        blurRadius: 120,
-                        offset: Offset(0, 5),
-                      ),
-                    ],
+          );
+        }
+
+        return Stack(
+          children: [
+            backgroundElements,
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: Get.width * 0.1),
+                    child: content,
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: 230,
-                right: 150,
-                child: Container(
-                  width: 300,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.indigo,
-                        blurRadius: 200,
-                        offset: Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 150,
-                right: 400,
-                child: Container(
-                  width: 250,
-                  height: 250,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.indigo,
-                        blurRadius: 200,
-                        offset: Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 500,
-                  height: 600,
-                  child: Image.asset(AppAssets.me),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+                Expanded(child: imageSection),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

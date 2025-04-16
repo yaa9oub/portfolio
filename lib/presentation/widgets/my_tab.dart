@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:portfolio/core/constants/colors.dart';
 import 'package:portfolio/core/constants/texts.dart';
 
@@ -7,6 +8,7 @@ class MyTab extends StatelessWidget {
   final bool isSelected;
   final VoidCallback? onTap;
   final bool isLink;
+  final bool isMobile;
 
   const MyTab({
     super.key,
@@ -14,6 +16,7 @@ class MyTab extends StatelessWidget {
     this.isSelected = false,
     this.onTap,
     this.isLink = false,
+    this.isMobile = false,
   });
 
   @override
@@ -24,14 +27,22 @@ class MyTab extends StatelessWidget {
         onTap: onTap,
         child: Container(
           height: 56,
+          width: isMobile ? Get.width : null,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: isSelected ? AppColors.stroke2 : Colors.transparent,
-                width: 3,
-              ),
-            ),
+            border:
+                isMobile
+                    ? Border.all(
+                      color:
+                          isSelected ? AppColors.stroke2 : AppColors.tertiary,
+                    )
+                    : Border(
+                      bottom: BorderSide(
+                        color:
+                            isSelected ? AppColors.stroke2 : Colors.transparent,
+                        width: 3,
+                      ),
+                    ),
           ),
           child: Text(
             text,
