@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:portfolio/core/constants/colors.dart';
+import 'package:portfolio/core/constants/texts.dart';
 
 class ContactMeController extends GetxController {
   final RxList<String> openedFiles = <String>["form"].obs;
@@ -18,8 +20,51 @@ class ContactMeController extends GetxController {
   }
 
   void sendEmail() async {
-    // TODO: Implement email sending logic
+    Get.dialog(
+      Material(
+        color: Colors.transparent,
+        child: Center(
+          child: Container(
+            width: 350,
+            height: 200,
+            color: AppColors.primary,
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              spacing: 20,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Seriously?",
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.pink,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => Get.back(),
+                      child: Icon(
+                        Icons.close_rounded,
+                        color: AppColors.tertiary,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  "Do you really think I'm going to waste my time on this?, you got the email right here: seyf.yagoub@gmail.com",
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.tertiary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      barrierDismissible: true,
+    );
   }
+
   void openFile(String title) {
     if (!openedFiles.contains(title)) {
       openedFiles.add(title);

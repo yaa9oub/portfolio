@@ -17,6 +17,7 @@ class ProjectsPage extends StatelessWidget {
       "Protec": {"screenshots": []},
       "Fas3a": {"screenshots": []},
       "Deeds": {
+        "icon": AppAssets.deeds,
         "screenshots": [
           AppAssets.deeds1,
           AppAssets.deeds2,
@@ -273,11 +274,26 @@ class ProjectsPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Icon(
-                                  CupertinoIcons.flag_circle,
-                                  color: AppColors.teal,
-                                  size: 70,
-                                ),
+                                folderData[folderName]!["icon"] != null
+                                    ? Container(
+                                      width: 70,
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.tertiary,
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            folderData[folderName]!["icon"],
+                                          ),
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    )
+                                    : Icon(
+                                      CupertinoIcons.flag_circle,
+                                      color: AppColors.teal,
+                                      size: 70,
+                                    ),
                                 Text(
                                   folderName,
                                   style: AppTextStyles.bodyMedium.copyWith(
