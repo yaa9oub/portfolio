@@ -4,246 +4,211 @@ import 'dart:ui';
 import 'package:portfolio/core/constants/colors.dart';
 import 'package:portfolio/core/constants/texts.dart';
 import 'package:portfolio/presentation/widgets/custom_divider.dart';
+import 'package:portfolio/presentation/controllers/experience_controller.dart';
 
-class ExperiencePage extends StatefulWidget {
+class ExperiencePage extends StatelessWidget {
   const ExperiencePage({super.key});
 
   @override
-  State<ExperiencePage> createState() => _ExperiencePageState();
-}
-
-class _ExperiencePageState extends State<ExperiencePage> {
-  final Map<String, Offset> openFolders = {};
-  final Map<String, bool> isDragging = {};
-  final Map<String, Map<String, dynamic>> folderData = {
-    "Profiler": {
-      "title": "Profiler LLC - Profiler App",
-      "description":
-          "A cross-platform mobile app that provides users who are interested in building their online profiles using AI models and user's interactions to generate a very constructive feedback.",
-      "skills": [
-        "Flutter, Dart",
-        "Git, GitHub",
-        "Figma",
-        "Postman, Linear, Notion, Cursor, Slack",
-        "Getx, MVVM.",
-      ],
-      "date": "April 2024 - Present",
-    },
-    "Upwork": {
-      "title": "Upwork - Our Convo App",
-      "description":
-          "A cross-platform mobile app for friends, family, and colleagues to stay connected, answer questions, and share memories.",
-      "skills": [
-        "Flutter, Dart",
-        "Git, GitHub",
-        "Figma",
-        "Firebase authentication, Firestore, Firebase storage, Firebase functions.",
-        "Bloc, Clean Architecture.",
-      ],
-      "date": "July 2024 - December 2024",
-    },
-    "Nachd IT": {
-      "title": "Nachd IT - WeeFarm App",
-      "description":
-          "A marketplace for farmers to upload, sell and buy different products. Consumer can connect with the farmers and buy the products directly from them.",
-      "skills": [
-        "Flutter, Dart",
-        "Git, GitHub",
-        "Adobe XD",
-        "Postman, Jira",
-        "Getx, MVVM",
-      ],
-      "date": "July 2023 - April 2024",
-    },
-    "Gwala Co": {
-      "title": "Gwala Co - Gwala App",
-      "description":
-          "Provides early access to salary and other benefits of employees in Morocco.",
-      "skills": [
-        "Flutter, Dart",
-        "Git, GitHub",
-        "Figma",
-        "Swagger, Jira",
-        "Getx, MVC",
-      ],
-      "date": "June 2022 - July 2023",
-    },
-    "Ticka World": {
-      "title": "Ticka World",
-      "description":
-          "A platform that provides designing tools on different product mockups for designers. An easy to access shops for customers to buy personalized products.",
-      "skills": ["React, typescript", "Git, GitHub", "Cursor"],
-      "date": "",
-    },
-  };
-
-  void _openFolder(String folderName) {
-    setState(() {
-      if (!openFolders.containsKey(folderName)) {
-        // Position new folders in a cascading pattern
-        openFolders[folderName] = Offset(
-          400 + (openFolders.length * 30),
-          200 + (openFolders.length * 30),
-        );
-        isDragging[folderName] = false;
-      }
-    });
-  }
-
-  void _closeFolder(String folderName) {
-    setState(() {
-      openFolders.remove(folderName);
-      isDragging.remove(folderName);
-    });
-  }
-
-  void _updateFolderPosition(String folderName, Offset newPosition) {
-    setState(() {
-      var position = Offset(newPosition.dx, newPosition.dy - 56);
-      openFolders[folderName] = position;
-      isDragging[folderName] = false;
-    });
-  }
-
-  void _startDragging(String folderName) {
-    setState(() {
-      isDragging[folderName] = true;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: 150,
-          left: 700,
-          child: Container(
-            width: 200,
-            height: 200,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.teal2,
-                  blurRadius: 120,
-                  offset: const Offset(0, 5),
+    final ExperienceController controller = Get.put(ExperienceController());
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 600;
+        return Stack(
+          children: [
+            Positioned(
+              // top: 150,
+              // left: 700,
+              top: isMobile ? 100 : 150,
+              left: isMobile ? 100 : 700,
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.teal2,
+                      blurRadius: 120,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 230,
-          right: 700,
-          child: Container(
-            width: 300,
-            height: 300,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.indigo,
-                  blurRadius: 200,
-                  offset: const Offset(0, 5),
+            Positioned(
+              bottom: isMobile ? 170 : 230,
+              right: isMobile ? 100 : 700,
+              child: Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.indigo,
+                      blurRadius: 200,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 150,
-          left: 600,
-          child: Container(
-            width: 250,
-            height: 250,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.indigo,
-                  blurRadius: 200,
-                  offset: const Offset(0, 5),
+            Positioned(
+              bottom: 100,
+              left: 650,
+              child: Container(
+                width: 250,
+                height: 250,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.teal2,
+                      blurRadius: 200,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        Container(
-          width: Get.width,
-          height: Get.height,
-          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children:
-                folderData.keys.map((folderName) {
-                  return GestureDetector(
-                    onDoubleTap: () => _openFolder(folderName),
-                    child: SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.folder,
-                            color:
-                                openFolders.containsKey(folderName)
-                                    ? AppColors.teal2
-                                    : AppColors.teal,
-                            size: 70,
-                          ),
-                          Text(
-                            folderName,
-                            style: AppTextStyles.bodyMedium.copyWith(
-                              color: AppColors.tertiary,
+            Container(
+              width: Get.width,
+              height: Get.height,
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 24 : 50,
+                vertical: 50,
+              ),
+              child:
+                  isMobile
+                      ? Wrap(
+                        children:
+                            controller.folderData.keys.map((folderName) {
+                              return FoldersView(
+                                controller: controller,
+                                folderName: folderName,
+                                isMobile: isMobile,
+                              );
+                            }).toList(),
+                      )
+                      : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children:
+                            controller.folderData.keys.map((folderName) {
+                              return FoldersView(
+                                controller: controller,
+                                folderName: folderName,
+                              );
+                            }).toList(),
+                      ),
+            ),
+            Obx(
+              () => Stack(
+                children:
+                    controller.openFolders.entries.map((entry) {
+                      final folderName = entry.key;
+                      final position = entry.value;
+                      return Positioned(
+                        top: position.dy,
+                        left: position.dx,
+                        child: Draggable<Offset>(
+                          onDragStarted:
+                              () => controller.startDragging(folderName),
+                          onDragEnd: (details) {
+                            controller.updateFolderPosition(
+                              folderName,
+                              details.offset,
+                            );
+                          },
+                          feedback: Material(
+                            color: Colors.transparent,
+                            child: ExperienceContainer(
+                              isMobile: isMobile,
+                              title:
+                                  controller.folderData[folderName]!["title"],
+                              description:
+                                  controller
+                                      .folderData[folderName]!["description"],
+                              skills: List<String>.from(
+                                controller.folderData[folderName]!["skills"],
+                              ),
+                              date: controller.folderData[folderName]!["date"],
+                              onClose: () => controller.closeFolder(folderName),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
-          ),
-        ),
-        ...openFolders.entries.map((entry) {
-          final folderName = entry.key;
-          final position = entry.value;
-          return Positioned(
-            top: position.dy,
-            left: position.dx,
-            child: Draggable<Offset>(
-              onDragStarted: () => _startDragging(folderName),
-              onDragEnd: (details) {
-                _updateFolderPosition(folderName, details.offset);
-              },
-              feedback: Material(
-                color: Colors.transparent,
-                child: ExperienceContainer(
-                  title: folderData[folderName]!["title"],
-                  description: folderData[folderName]!["description"],
-                  skills: List<String>.from(folderData[folderName]!["skills"]),
-                  date: folderData[folderName]!["date"],
-                  onClose: () => _closeFolder(folderName),
-                ),
-              ),
-              childWhenDragging: Container(),
-              child: Material(
-                color: Colors.transparent,
-                child: ExperienceContainer(
-                  title: folderData[folderName]!["title"],
-                  description: folderData[folderName]!["description"],
-                  skills: List<String>.from(folderData[folderName]!["skills"]),
-                  date: folderData[folderName]!["date"],
-                  onClose: () => _closeFolder(folderName),
-                ),
+                          childWhenDragging: Container(),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: ExperienceContainer(
+                              isMobile: isMobile,
+                              title:
+                                  controller.folderData[folderName]!["title"],
+                              description:
+                                  controller
+                                      .folderData[folderName]!["description"],
+                              skills: List<String>.from(
+                                controller.folderData[folderName]!["skills"],
+                              ),
+                              date: controller.folderData[folderName]!["date"],
+                              onClose: () => controller.closeFolder(folderName),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
               ),
             ),
-          );
-        }),
-      ],
+          ],
+        );
+      },
+    );
+  }
+}
+
+class FoldersView extends StatelessWidget {
+  const FoldersView({
+    super.key,
+    required this.controller,
+    required this.folderName,
+    this.isMobile = false,
+  });
+
+  final ExperienceController controller;
+  final String folderName;
+  final bool isMobile;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onDoubleTap: () => controller.openFolder(folderName, isMobile),
+      child: SizedBox(
+        width: 120,
+        height: 120,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Obx(
+              () => Icon(
+                Icons.folder,
+                color:
+                    controller.openFolders.containsKey(folderName)
+                        ? AppColors.teal2
+                        : AppColors.teal,
+                size: 70,
+              ),
+            ),
+            Text(
+              folderName,
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.tertiary,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -254,6 +219,7 @@ class ExperienceContainer extends StatelessWidget {
   final List<String> skills;
   final String date;
   final VoidCallback onClose;
+  final bool isMobile;
 
   const ExperienceContainer({
     super.key,
@@ -262,13 +228,14 @@ class ExperienceContainer extends StatelessWidget {
     required this.skills,
     required this.date,
     required this.onClose,
+    this.isMobile = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 700,
-      height: 400,
+      width: isMobile ? Get.width - 10 : 700,
+      height: isMobile ? 500 : 400,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
         color: AppColors.primary.withAlpha(200),
@@ -350,65 +317,3 @@ class ExperienceContainer extends StatelessWidget {
     }
   }
 }
-
-
-
-// ExperienceContainer(
-//                   title: "Profiler LLC - Profiler App",
-//                   description:
-//                       "A cross-platform mobile app that provides users who are interested in building their online profiles using AI models and user's interactions to generate a very constructive feedback.",
-//                   skills: [
-//                     "Flutter, Dart",
-//                     "Git, GitHub",
-//                     "Figma",
-//                     "Postman, Linear, Notion, Cursor, Slack",
-//                     "Getx, MVVM.",
-//                   ],
-//                   date: "April 2024 - Present",
-//                 ),
-//                 ExperienceContainer(
-//                   title: "Upwork - Our Convo App",
-//                   description:
-//                       "A cross-platform mobile app for friends, family, and colleagues to stay connected, answer questions, and share memories.",
-//                   skills: [
-//                     "Flutter, Dart",
-//                     "Git, GitHub",
-//                     "Figma",
-//                     "Firebase authentication, Firestore, Firebase storage, Firebase functions.",
-//                     "Bloc, Clean Architecture.",
-//                   ],
-//                   date: "July 2024 - December 2024",
-//                 ),
-//                 ExperienceContainer(
-//                   title: "Nachd IT - WeeFarm App",
-//                   description:
-//                       "A marketplace for farmers to upload, sell and buy different products. Consumer can connect with the farmers and buy the products directly from them.",
-//                   skills: [
-//                     "Flutter, Dart",
-//                     "Git, GitHub",
-//                     "Adobe XD",
-//                     "Postman, Jira",
-//                     "Getx, MVVM",
-//                   ],
-//                   date: "July 2023 - April 2024",
-//                 ),
-//                 ExperienceContainer(
-//                   title: "Gwala Co - Gwala App",
-//                   description:
-//                       "Provides early access to salary and other benefits of employees in Morocco.",
-//                   skills: [
-//                     "Flutter, Dart",
-//                     "Git, GitHub",
-//                     "Figma",
-//                     "Swagger, Jira",
-//                     "Getx, MVC",
-//                   ],
-//                   date: "June 2022 - July 2023",
-//                 ),
-//                 ExperienceContainer(
-//                   title: "Ticka World",
-//                   description:
-//                       "A platform that provides designing tools on different product mockups for designers. An easy to access shops for customers to buy personalized products.",
-//                   skills: ["React, typescript", "Git, GitHub", "Cursor"],
-//                   date: "",
-//                 ),
