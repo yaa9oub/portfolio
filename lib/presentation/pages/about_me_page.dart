@@ -33,7 +33,7 @@ class AboutMePage extends GetView<AboutMeController> {
                 //files system
                 FilesSystem(controller: controller),
                 Expanded(
-                  child: Column(
+                  child: ListView(
                     children: [
                       //opened files
                       SizedBox(
@@ -132,7 +132,7 @@ class CodeViewer extends StatelessWidget {
       children: [
         Obx(
           () => SizedBox(
-            width: isMobile ? Get.width : Get.width * 0.5,
+            width: isMobile ? Get.width - 10 : Get.width * 0.5,
             child:
                 controller.selectedFile.value == "bio"
                     ? BioPage()
@@ -246,40 +246,38 @@ class ClubsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 770,
-      child: SingleChildScrollView(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Line numbers gutter
-            Container(
-              width: 48,
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(color: AppColors.secondary, width: 0.5),
-                ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Line numbers gutter
+          Container(
+            width: 48,
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(color: AppColors.secondary, width: 0.5),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: List.generate(
-                  34,
-                  (index) => Text(
-                    '${index + 1}',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.secondary.withOpacity(0.5),
-                    ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.generate(
+                34,
+                (index) => Text(
+                  '${index + 1}',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.secondary.withOpacity(0.5),
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-              child: SyntaxHighlighter(code: clubs),
-            ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            child: SyntaxHighlighter(code: clubs),
+          ),
+        ],
       ),
     );
   }
@@ -290,40 +288,38 @@ class ScholarshipPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 770,
-      child: SingleChildScrollView(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Line numbers gutter
-            Container(
-              width: 48,
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(color: AppColors.secondary, width: 0.5),
-                ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Line numbers gutter
+          Container(
+            width: 48,
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(color: AppColors.secondary, width: 0.5),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: List.generate(
-                  36,
-                  (index) => Text(
-                    '${index + 1}',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.secondary.withOpacity(0.5),
-                    ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.generate(
+                36,
+                (index) => Text(
+                  '${index + 1}',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.secondary.withOpacity(0.5),
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-              child: SyntaxHighlighter(code: scholarships),
-            ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            child: SyntaxHighlighter(code: scholarships),
+          ),
+        ],
       ),
     );
   }
@@ -334,36 +330,39 @@ class UniversityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Line numbers gutter
-        Container(
-          width: 48,
-          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-          decoration: BoxDecoration(
-            border: Border(
-              right: BorderSide(color: AppColors.secondary, width: 0.5),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Line numbers gutter
+          Container(
+            width: 48,
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(color: AppColors.secondary, width: 0.5),
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: List.generate(
-              30,
-              (index) => Text(
-                '${index + 1}',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.secondary.withOpacity(0.5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.generate(
+                30,
+                (index) => Text(
+                  '${index + 1}',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.secondary.withOpacity(0.5),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-          child: SyntaxHighlighter(code: universityCode),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            child: SyntaxHighlighter(code: universityCode),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -373,36 +372,39 @@ class HighSchoolPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Line numbers gutter
-        Container(
-          width: 48,
-          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-          decoration: BoxDecoration(
-            border: Border(
-              right: BorderSide(color: AppColors.secondary, width: 0.5),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Line numbers gutter
+          Container(
+            width: 48,
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(color: AppColors.secondary, width: 0.5),
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: List.generate(
-              30,
-              (index) => Text(
-                '${index + 1}',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.secondary.withOpacity(0.5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.generate(
+                30,
+                (index) => Text(
+                  '${index + 1}',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.secondary.withOpacity(0.5),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-          child: SyntaxHighlighter(code: highSchoolCode),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            child: SyntaxHighlighter(code: highSchoolCode),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -412,36 +414,39 @@ class InterestsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Line numbers gutter
-        Container(
-          width: 48,
-          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-          decoration: BoxDecoration(
-            border: Border(
-              right: BorderSide(color: AppColors.secondary, width: 0.5),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Line numbers gutter
+          Container(
+            width: 48,
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(color: AppColors.secondary, width: 0.5),
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: List.generate(
-              30,
-              (index) => Text(
-                '${index + 1}',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.secondary.withOpacity(0.5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.generate(
+                30,
+                (index) => Text(
+                  '${index + 1}',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.secondary.withOpacity(0.5),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-          child: SyntaxHighlighter(code: interestsCode),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            child: SyntaxHighlighter(code: interestsCode),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class AboutMeController extends GetxController {
   final RxList<String> openedFiles = <String>[].obs;
-  final RxString selectedFile = ''.obs;
+  final RxString selectedFile = 'clubs'.obs;
 
   void openFile(String title) {
     if (!openedFiles.contains(title)) {
