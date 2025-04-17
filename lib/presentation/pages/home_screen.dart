@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _selectedTab = "_experience";
+  String _selectedTab = "_projects";
 
   void _handleTabSelection(String tab) {
     setState(() {
