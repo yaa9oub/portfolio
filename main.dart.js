@@ -81532,13 +81532,13 @@ A.a9A.prototype={
 $0(){return this.a.lb("https://github.com/yaa9oub")},
 $S:0}
 A.a9B.prototype={
-$0(){return this.a.lb("https://linkedin.com/in/your-profile")},
+$0(){return this.a.lb("https://www.linkedin.com/in/seyf-yacoub/")},
 $S:0}
 A.a9C.prototype={
-$0(){return this.a.lb("https://youtube.com/your-channel")},
+$0(){return this.a.lb("https://www.youtube.com/@Ceyphe/videos")},
 $S:0}
 A.a9D.prototype={
-$0(){return this.a.lb("https://upwork.com/freelancers/your-profile")},
+$0(){return this.a.lb("https://www.upwork.com/freelancers/mohamedseyfbenyagoub?mp_source=share")},
 $S:0}
 A.Kn.prototype={
 K(a){return new A.jv(new A.a9y(this),null)}}
