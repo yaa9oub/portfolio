@@ -72,14 +72,14 @@ class MyFooter extends StatelessWidget {
                     isLink: true,
                     onTap:
                         () =>
-                            _launchUrl("https://linkedin.com/in/your-profile"),
+                            _launchUrl("https://www.linkedin.com/in/seyf-yacoub/"),
                   ),
                   const CustomDivider(height: 56),
                   MyTab(
                     text: "@youtube",
                     isSelected: false,
                     isLink: true,
-                    onTap: () => _launchUrl("https://youtube.com/your-channel"),
+                    onTap: () => _launchUrl("https://www.youtube.com/@Ceyphe/videos"),
                   ),
                   const CustomDivider(height: 56),
                   MyTab(
@@ -88,7 +88,7 @@ class MyFooter extends StatelessWidget {
                     isLink: true,
                     onTap:
                         () => _launchUrl(
-                          "https://upwork.com/freelancers/your-profile",
+                          "https://www.upwork.com/freelancers/mohamedseyfbenyagoub?mp_source=share",
                         ),
                   ),
                   const CustomDivider(height: 56),
