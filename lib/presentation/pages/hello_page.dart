@@ -5,6 +5,8 @@ import 'package:portfolio/core/constants/code.dart';
 import 'package:portfolio/core/constants/colors.dart';
 import 'package:portfolio/core/constants/texts.dart';
 import 'package:portfolio/presentation/widgets/syntax_highlighter.dart';
+import 'package:portfolio/core/constants/app_constants.dart';
+import 'package:portfolio/core/constants/app_data.dart';
 
 class HelloPage extends StatelessWidget {
   const HelloPage({super.key});
@@ -13,41 +15,41 @@ class HelloPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isMobile = constraints.maxWidth <= 600;
+        final isMobile = constraints.maxWidth <= AppConstants.mobileMaxWidth;
         final content = Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hello y'all. I am",
+              AppData.helloGreeting,
               style: AppTextStyles.bodyLarge.copyWith(
                 color: AppColors.secondary,
                 fontSize: isMobile ? 15 : 20,
               ),
             ),
             Text(
-              "Seyf Yacoub",
+              AppData.helloName,
               style: AppTextStyles.headingLarge.copyWith(
                 color: AppColors.tertiary,
                 fontSize: isMobile ? 50 : 60,
               ),
             ),
             Text(
-              "> Software Engineer",
+              AppData.helloRole1,
               style: AppTextStyles.headingMedium.copyWith(
                 color: AppColors.indigo,
                 fontSize: isMobile ? 20 : 30,
               ),
             ),
             Text(
-              "> Mobile Developer",
+              AppData.helloRole2,
               style: AppTextStyles.headingMedium.copyWith(
                 color: AppColors.pink,
                 fontSize: isMobile ? 20 : 30,
               ),
             ),
             Text(
-              "> Flutter Enthusiast",
+              AppData.helloRole3,
               style: AppTextStyles.headingMedium.copyWith(
                 color: AppColors.stroke2,
                 fontSize: isMobile ? 20 : 30,
@@ -55,12 +57,12 @@ class HelloPage extends StatelessWidget {
             ),
             const SizedBox(height: 56),
             Text(
-              "// tools I use daily",
+              AppData.helloToolsComment,
               style: AppTextStyles.bodyMedium.copyWith(
                 color: AppColors.secondary,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppConstants.defaultBorderRadius),
             SyntaxHighlighter(code: dailyToolsCode),
           ],
         );
@@ -78,7 +80,7 @@ class HelloPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.teal2,
-                      blurRadius: 120,
+                      blurRadius: AppConstants.smallBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -96,7 +98,7 @@ class HelloPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.indigo,
-                      blurRadius: 200,
+                      blurRadius: AppConstants.mediumBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -114,7 +116,7 @@ class HelloPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.indigo,
-                      blurRadius: 200,
+                      blurRadius: AppConstants.mediumBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -158,7 +160,7 @@ class HelloPage extends StatelessWidget {
                             boxShadow: [
                               BoxShadow(
                                 color: AppColors.teal2,
-                                blurRadius: 120,
+                                blurRadius: AppConstants.smallBlurRadius,
                                 offset: const Offset(0, 5),
                               ),
                             ],
@@ -176,7 +178,7 @@ class HelloPage extends StatelessWidget {
                             boxShadow: [
                               BoxShadow(
                                 color: AppColors.indigo,
-                                blurRadius: 120,
+                                blurRadius: AppConstants.smallBlurRadius,
                                 offset: const Offset(0, 5),
                               ),
                             ],

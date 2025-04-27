@@ -4,42 +4,19 @@ import 'package:get/get.dart';
 import 'package:portfolio/core/constants/assets.dart';
 import 'package:portfolio/core/constants/colors.dart';
 import 'package:portfolio/core/constants/texts.dart';
+import 'package:portfolio/core/constants/app_constants.dart';
+import 'package:portfolio/core/constants/app_data.dart';
 
 class ProjectsPage extends StatelessWidget {
   const ProjectsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, Map<String, dynamic>> folderData = {
-      "Profiler": {"screenshots": []},
-      "Kojo": {"screenshots": []},
-      "WeeFarm": {"screenshots": []},
-      "Protec": {"screenshots": []},
-      "Fas3a": {"screenshots": []},
-      "Deeds": {
-        "icon": AppAssets.deeds,
-        "screenshots": [
-          AppAssets.deeds1,
-          AppAssets.deeds2,
-          AppAssets.deeds3,
-          AppAssets.deeds4,
-          AppAssets.deeds5,
-          AppAssets.deeds6,
-          AppAssets.deeds7,
-          AppAssets.deeds9,
-          AppAssets.deeds8,
-        ],
-      },
-      "Stouchi": {"screenshots": []},
-      "Gwala": {"screenshots": []},
-      "Midibi": {"screenshots": []},
-      "Ticka": {"screenshots": []},
-      "Convo": {"screenshots": []},
-    };
+    final Map<String, Map<String, dynamic>> folderData = AppData.projectsData;
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isMobile = constraints.maxWidth < 600;
+        final isMobile = constraints.maxWidth < AppConstants.mobileMaxWidth;
         return Stack(
           children: [
             Positioned(
@@ -53,7 +30,10 @@ class ProjectsPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.teal2,
-                      blurRadius: isMobile ? 300 : 120,
+                      blurRadius:
+                          isMobile
+                              ? AppConstants.largeBlurRadius
+                              : AppConstants.smallBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -71,7 +51,10 @@ class ProjectsPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.indigo,
-                      blurRadius: isMobile ? 300 : 200,
+                      blurRadius:
+                          isMobile
+                              ? AppConstants.largeBlurRadius
+                              : AppConstants.mediumBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -89,7 +72,7 @@ class ProjectsPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.pink,
-                      blurRadius: 200,
+                      blurRadius: AppConstants.mediumBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -100,16 +83,22 @@ class ProjectsPage extends StatelessWidget {
               child: Container(
                 width: 600,
                 height: Get.height,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppConstants.hugePadding,
+                  vertical: AppConstants.hugePadding,
+                ),
                 child: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   children:
                       folderData.keys.map((folderName) {
+                        final projectInfo = folderData[folderName]!;
+                        final screenshots =
+                            projectInfo["screenshots"] as List? ?? [];
+                        final icon = projectInfo["icon"] as String?;
+
                         return GestureDetector(
                           onTap: () {
-                            if ((folderData[folderName]!["screenshots"] as List)
-                                .isEmpty) {
+                            if (screenshots.isEmpty) {
                               Get.dialog(
                                 Center(
                                   child: Material(
@@ -119,32 +108,33 @@ class ProjectsPage extends StatelessWidget {
                                       height: 450,
                                       decoration: BoxDecoration(
                                         color: AppColors.primary.withAlpha(100),
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(
+                                          AppConstants.defaultBorderRadius,
+                                        ),
                                         border: Border.all(
                                           color: AppColors.stroke,
-                                          width: 2,
+                                          width: AppConstants.thickBorderWidth,
                                         ),
                                       ),
-                                      padding: EdgeInsets.all(20),
+                                      padding: const EdgeInsets.all(20),
                                       child: Column(
                                         children: [
                                           Text(
-                                            "NO SCREENSHOTS YET",
+                                            AppData.noScreenshotsTitle,
                                             style: AppTextStyles.headingMedium
                                                 .copyWith(
                                                   color: AppColors.pink,
                                                 ),
                                           ),
-                                          SizedBox(height: 20),
+                                          const SizedBox(height: 20),
                                           Image.network(
-                                            "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExd3FoaGVkOXBieml5YWhpZTEwc3AydHByMWkydmZnbXhtdnVmcjlpNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3V5xCr3DvoJxRF0HNb/giphy.gif",
+                                            AppData.noScreenshotsGifUrl,
                                             width: 300,
                                             height: 250,
                                           ),
-                                          SizedBox(height: 20),
-
+                                          const SizedBox(height: 20),
                                           Text(
-                                            "This project is still under development. I will update this section as soon as I can.",
+                                            AppData.noScreenshotsMessage,
                                             style: AppTextStyles.bodyMedium
                                                 .copyWith(
                                                   color: AppColors.tertiary,
@@ -171,13 +161,15 @@ class ProjectsPage extends StatelessWidget {
                                       height: Get.height * 0.8,
                                       decoration: BoxDecoration(
                                         color: AppColors.primary.withAlpha(100),
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(
+                                          AppConstants.defaultBorderRadius,
+                                        ),
                                         border: Border.all(
                                           color: AppColors.stroke,
-                                          width: 2,
+                                          width: AppConstants.thickBorderWidth,
                                         ),
                                       ),
-                                      padding: EdgeInsets.all(20),
+                                      padding: const EdgeInsets.all(20),
                                       child: Column(
                                         children: [
                                           Row(
@@ -200,39 +192,36 @@ class ProjectsPage extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 20),
+                                          const SizedBox(height: 20),
                                           Expanded(
                                             child: PageView.builder(
                                               controller: pageController,
-                                              itemCount:
-                                                  (folderData[folderName]!["screenshots"]
-                                                          as List)
-                                                      .length,
+                                              itemCount: screenshots.length,
                                               itemBuilder: (context, index) {
                                                 return Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                  ),
+                                                  margin:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                      ),
                                                   child: Image.asset(
-                                                    folderData[folderName]!["screenshots"][index],
+                                                    screenshots[index],
                                                     fit: BoxFit.contain,
                                                   ),
                                                 );
                                               },
                                             ),
                                           ),
-                                          SizedBox(height: 20),
+                                          const SizedBox(height: 20),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               IconButton(
                                                 onPressed: () {
-                                                  // Handle previous page
                                                   pageController.previousPage(
-                                                    duration: Duration(
-                                                      milliseconds: 300,
-                                                    ),
+                                                    duration:
+                                                        AppConstants
+                                                            .defaultAnimationDuration,
                                                     curve: Curves.easeInOut,
                                                   );
                                                 },
@@ -241,14 +230,13 @@ class ProjectsPage extends StatelessWidget {
                                                   color: AppColors.tertiary,
                                                 ),
                                               ),
-                                              SizedBox(width: 20),
+                                              const SizedBox(width: 20),
                                               IconButton(
                                                 onPressed: () {
-                                                  // Handle next page
                                                   pageController.nextPage(
-                                                    duration: Duration(
-                                                      milliseconds: 300,
-                                                    ),
+                                                    duration:
+                                                        AppConstants
+                                                            .defaultAnimationDuration,
                                                     curve: Curves.easeInOut,
                                                   );
                                                 },
@@ -274,17 +262,15 @@ class ProjectsPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                folderData[folderName]!["icon"] != null
+                                icon != null
                                     ? Container(
-                                      width: 70,
-                                      height: 70,
+                                      width: AppConstants.defaultIconSize,
+                                      height: AppConstants.defaultIconSize,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: AppColors.tertiary,
                                         image: DecorationImage(
-                                          image: AssetImage(
-                                            folderData[folderName]!["icon"],
-                                          ),
+                                          image: AssetImage(icon),
                                           fit: BoxFit.contain,
                                         ),
                                       ),
@@ -292,7 +278,7 @@ class ProjectsPage extends StatelessWidget {
                                     : Icon(
                                       CupertinoIcons.flag_circle,
                                       color: AppColors.teal,
-                                      size: 70,
+                                      size: AppConstants.defaultIconSize,
                                     ),
                                 Text(
                                   folderName,

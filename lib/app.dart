@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return Obx(
       () => GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: AppConstants.appTtitle,
+        title: AppConstants.appTitle,
         theme:
             themeController.isDarkMode.value
                 ? AppTheme.darkTheme

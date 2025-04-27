@@ -7,6 +7,7 @@ import 'package:portfolio/presentation/pages/about_me_page.dart';
 import 'package:portfolio/presentation/pages/experience_page.dart';
 import 'package:portfolio/presentation/pages/projects_page.dart';
 import 'package:portfolio/presentation/pages/contact_me_page.dart';
+import 'package:portfolio/core/constants/app_constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _selectedTab = "_hello";
+  String _selectedTab = AppConstants.helloTabId;
 
   void _handleTabSelection(String tab) {
     setState(() {
@@ -26,15 +27,15 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBody() {
     switch (_selectedTab) {
-      case "_hello":
+      case AppConstants.helloTabId:
         return const HelloPage();
-      case "_about-me":
+      case AppConstants.aboutMeTabId:
         return const AboutMePage();
-      case "_experience":
+      case AppConstants.experienceTabId:
         return const ExperiencePage();
-      case "_projects":
+      case AppConstants.projectsTabId:
         return const ProjectsPage();
-      case "_contact-me":
+      case AppConstants.contactMeTabId:
         return const ContactMePage();
       default:
         return const HelloPage();
@@ -51,8 +52,14 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         decoration: BoxDecoration(
           border: Border(
-            left: BorderSide(color: AppColors.secondary, width: 0.5),
-            right: BorderSide(color: AppColors.secondary, width: 0.5),
+            left: BorderSide(
+              color: AppColors.secondary,
+              width: AppConstants.defaultBorderWidth,
+            ),
+            right: BorderSide(
+              color: AppColors.secondary,
+              width: AppConstants.defaultBorderWidth,
+            ),
           ),
         ),
         child: _buildBody(),

@@ -7,6 +7,8 @@ import 'package:portfolio/presentation/controllers/about_me_controller.dart';
 import 'package:portfolio/presentation/widgets/custom_divider.dart';
 import 'package:portfolio/presentation/widgets/files_system.dart';
 import 'package:portfolio/presentation/widgets/syntax_highlighter.dart';
+import 'package:portfolio/core/constants/app_constants.dart';
+import 'package:portfolio/core/constants/app_data.dart';
 
 class AboutMePage extends GetView<AboutMeController> {
   const AboutMePage({super.key});
@@ -16,7 +18,7 @@ class AboutMePage extends GetView<AboutMeController> {
     var controller = Get.put(AboutMeController());
     return LayoutBuilder(
       builder: (context, constraints) {
-        var isMobile = constraints.maxWidth < 600;
+        var isMobile = constraints.maxWidth < AppConstants.mobileMaxWidth;
         return isMobile
             ? SizedBox(
               width: Get.width,
@@ -45,24 +47,25 @@ class AboutMePage extends GetView<AboutMeController> {
                             () => Row(
                               children: [
                                 ...controller.openedFiles.map(
-                                  (file) => GestureDetector(
-                                    onTap: () => controller.selectFile(file),
+                                  (fileId) => GestureDetector(
+                                    onTap: () => controller.selectFile(fileId),
                                     child: Container(
                                       width: 200,
                                       height: 56,
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 24,
+                                        horizontal: AppConstants.largePadding,
                                       ),
                                       decoration: BoxDecoration(
                                         border: Border(
                                           right: BorderSide(
                                             color: AppColors.secondary,
-                                            width: 0.5,
+                                            width:
+                                                AppConstants.defaultBorderWidth,
                                           ),
                                         ),
                                         color:
                                             controller.selectedFile.value ==
-                                                    file
+                                                    fileId
                                                 ? AppColors.primary.withOpacity(
                                                   0.1,
                                                 )
@@ -73,7 +76,7 @@ class AboutMePage extends GetView<AboutMeController> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            file,
+                                            fileId,
                                             style: AppTextStyles.bodyMedium
                                                 .copyWith(
                                                   color: AppColors.secondary,
@@ -81,12 +84,13 @@ class AboutMePage extends GetView<AboutMeController> {
                                           ),
                                           GestureDetector(
                                             onTap:
-                                                () =>
-                                                    controller.closeFile(file),
+                                                () => controller.closeFile(
+                                                  fileId,
+                                                ),
                                             child: Icon(
                                               Icons.close_rounded,
                                               color: AppColors.secondary,
-                                              size: 16,
+                                              size: AppConstants.smallIconSize,
                                             ),
                                           ),
                                         ],
@@ -101,7 +105,7 @@ class AboutMePage extends GetView<AboutMeController> {
                       ),
                       CustomDivider(
                         width: double.infinity,
-                        thickness: 0.5,
+                        thickness: AppConstants.defaultBorderWidth,
                         isVertical: false,
                       ),
                       CodeViewer(controller: controller),
@@ -134,22 +138,30 @@ class CodeViewer extends StatelessWidget {
           () => SizedBox(
             width: isMobile ? Get.width - 10 : Get.width * 0.5,
             child:
-                controller.selectedFile.value == "bio"
+                controller.selectedFile.value == AppConstants.bioFileId
                     ? BioPage()
-                    : controller.selectedFile.value == "interests"
+                    : controller.selectedFile.value ==
+                        AppConstants.interestsFileId
                     ? InterestsPage()
-                    : controller.selectedFile.value == "high-school"
+                    : controller.selectedFile.value ==
+                        AppConstants.highSchoolFileId
                     ? HighSchoolPage()
-                    : controller.selectedFile.value == "university"
+                    : controller.selectedFile.value ==
+                        AppConstants.universityFileId
                     ? UniversityPage()
-                    : controller.selectedFile.value == "scholarships"
+                    : controller.selectedFile.value ==
+                        AppConstants.scholarshipsFileId
                     ? ScholarshipPage()
-                    : controller.selectedFile.value == "clubs"
+                    : controller.selectedFile.value == AppConstants.clubsFileId
                     ? ClubsPage()
                     : SizedBox(),
           ),
         ),
-        if (!isMobile) CustomDivider(height: Get.height * 0.8, thickness: 0.5),
+        if (!isMobile)
+          CustomDivider(
+            height: Get.height * 0.8,
+            thickness: AppConstants.defaultBorderWidth,
+          ),
         if (!isMobile) Spacer(),
       ],
     );
@@ -171,49 +183,60 @@ class FilesSystem extends StatelessWidget {
     return Container(
       width: isMobile ? Get.width : 311,
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.stroke, width: 0.5),
+        border: Border.all(
+          color: AppColors.stroke,
+          width: AppConstants.defaultBorderWidth,
+        ),
       ),
       child: Column(
         children: [
           ProjectItem(
-            title: "about-me",
+            title: AppData.aboutMeSectionTitle,
             onFileTap: controller.openFile,
             children: [
               FolderItem(
-                title: "personal-info",
+                title: AppData.personalInfoFolderTitle,
                 color: AppColors.indigo,
                 onFileTap: controller.openFile,
                 children: [
                   FileItem(
-                    title: "bio",
-                    onTap: () => controller.openFile("bio"),
+                    title: AppData.bioFileTitle,
+                    onTap: () => controller.openFile(AppConstants.bioFileId),
                   ),
                   FileItem(
-                    title: "interests",
-                    onTap: () => controller.openFile("interests"),
+                    title: AppData.interestsFileTitle,
+                    onTap:
+                        () => controller.openFile(AppConstants.interestsFileId),
                   ),
                 ],
               ),
               FolderItem(
-                title: "education",
+                title: AppData.educationFolderTitle,
                 color: AppColors.teal,
                 onFileTap: controller.openFile,
                 children: [
                   FileItem(
-                    title: "high-school",
-                    onTap: () => controller.openFile("high-school"),
+                    title: AppData.highSchoolFileTitle,
+                    onTap:
+                        () =>
+                            controller.openFile(AppConstants.highSchoolFileId),
                   ),
                   FileItem(
-                    title: "university",
-                    onTap: () => controller.openFile("university"),
+                    title: AppData.universityFileTitle,
+                    onTap:
+                        () =>
+                            controller.openFile(AppConstants.universityFileId),
                   ),
                   FileItem(
-                    title: "scholarships",
-                    onTap: () => controller.openFile("scholarships"),
+                    title: AppData.scholarshipsFileTitle,
+                    onTap:
+                        () => controller.openFile(
+                          AppConstants.scholarshipsFileId,
+                        ),
                   ),
                   FileItem(
-                    title: "clubs",
-                    onTap: () => controller.openFile("clubs"),
+                    title: AppData.clubsFileTitle,
+                    onTap: () => controller.openFile(AppConstants.clubsFileId),
                   ),
                 ],
               ),
@@ -222,17 +245,14 @@ class FilesSystem extends StatelessWidget {
           CustomDivider(
             width: double.infinity,
             isVertical: false,
-            thickness: 0.5,
+            thickness: AppConstants.defaultBorderWidth,
           ),
           ProjectItem(
-            title: "contacts",
+            title: AppData.contactsSectionTitle,
             onFileTap: controller.openFile,
             children: [
-              FileItem(
-                title: "seyf.yagoub@gmail.com",
-                icon: Icons.email_rounded,
-              ),
-              FileItem(title: "(+216) 99 101 001", icon: Icons.phone_android),
+              FileItem(title: AppData.emailContact, icon: Icons.email_rounded),
+              FileItem(title: AppData.phoneContact, icon: Icons.phone_android),
             ],
           ),
         ],
@@ -254,10 +274,17 @@ class ClubsPage extends StatelessWidget {
           // Line numbers gutter
           Container(
             width: 48,
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             decoration: BoxDecoration(
               border: Border(
-                right: BorderSide(color: AppColors.secondary, width: 0.5),
+                right: BorderSide(
+                  color: AppColors.secondary,
+                  width: AppConstants.defaultBorderWidth,
+                ),
               ),
             ),
             child: Column(
@@ -274,7 +301,11 @@ class ClubsPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             child: SyntaxHighlighter(code: clubs),
           ),
         ],
@@ -296,10 +327,17 @@ class ScholarshipPage extends StatelessWidget {
           // Line numbers gutter
           Container(
             width: 48,
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             decoration: BoxDecoration(
               border: Border(
-                right: BorderSide(color: AppColors.secondary, width: 0.5),
+                right: BorderSide(
+                  color: AppColors.secondary,
+                  width: AppConstants.defaultBorderWidth,
+                ),
               ),
             ),
             child: Column(
@@ -316,7 +354,11 @@ class ScholarshipPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             child: SyntaxHighlighter(code: scholarships),
           ),
         ],
@@ -338,10 +380,17 @@ class UniversityPage extends StatelessWidget {
           // Line numbers gutter
           Container(
             width: 48,
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             decoration: BoxDecoration(
               border: Border(
-                right: BorderSide(color: AppColors.secondary, width: 0.5),
+                right: BorderSide(
+                  color: AppColors.secondary,
+                  width: AppConstants.defaultBorderWidth,
+                ),
               ),
             ),
             child: Column(
@@ -358,7 +407,11 @@ class UniversityPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             child: SyntaxHighlighter(code: universityCode),
           ),
         ],
@@ -380,10 +433,17 @@ class HighSchoolPage extends StatelessWidget {
           // Line numbers gutter
           Container(
             width: 48,
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             decoration: BoxDecoration(
               border: Border(
-                right: BorderSide(color: AppColors.secondary, width: 0.5),
+                right: BorderSide(
+                  color: AppColors.secondary,
+                  width: AppConstants.defaultBorderWidth,
+                ),
               ),
             ),
             child: Column(
@@ -400,7 +460,11 @@ class HighSchoolPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             child: SyntaxHighlighter(code: highSchoolCode),
           ),
         ],
@@ -422,10 +486,17 @@ class InterestsPage extends StatelessWidget {
           // Line numbers gutter
           Container(
             width: 48,
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             decoration: BoxDecoration(
               border: Border(
-                right: BorderSide(color: AppColors.secondary, width: 0.5),
+                right: BorderSide(
+                  color: AppColors.secondary,
+                  width: AppConstants.defaultBorderWidth,
+                ),
               ),
             ),
             child: Column(
@@ -442,7 +513,11 @@ class InterestsPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             child: SyntaxHighlighter(code: interestsCode),
           ),
         ],
@@ -464,10 +539,17 @@ class BioPage extends StatelessWidget {
           // Line numbers gutter
           Container(
             width: 48,
-            padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+            padding: const EdgeInsets.only(
+              left: AppConstants.defaultBorderRadius,
+              right: AppConstants.defaultBorderRadius,
+              top: AppConstants.defaultBorderRadius,
+            ),
             decoration: BoxDecoration(
               border: Border(
-                right: BorderSide(color: AppColors.secondary, width: 0.5),
+                right: BorderSide(
+                  color: AppColors.secondary,
+                  width: AppConstants.defaultBorderWidth,
+                ),
               ),
             ),
             child: Column(
@@ -486,22 +568,26 @@ class BioPage extends StatelessWidget {
           // Code content
           Expanded(
             child: Container(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+              padding: const EdgeInsets.only(
+                left: AppConstants.defaultBorderRadius,
+                right: AppConstants.defaultBorderRadius,
+                top: AppConstants.defaultBorderRadius,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "/*\nAbout me,\nI wrote my first line of code in 2016,\nit was a simple Hello World print using python,\nnow I have helped countless clients launch their mobile applications.\n\nI tried different languages and frameworks along the way \nbut Flutter felt very special to me and since 2019 I never stopped bringing ideas to life with it.\n\nI'm not a typical developer who only knows how to code WOOOW applications.\n\nWhat I got is curiosity, very much of it.\nEager to prove myself and to prove you wrong.\nTeam player but also I got leader instincts.\nChallenger, so challenge me as much as you can, if it's a good one I will not sleep until I either finish the challenge or die.\n\nthis bio is just for fun, don't take it too serious.\n*/\n\n",
+                    AppData.bioComment,
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: AppColors.secondary,
                     ),
                   ),
                   PersoClass(
-                    photoUrl: "'assets/images/seyf.png'",
-                    name: "'Seyf'",
-                    lastName: 'Yacoub',
-                    age: '25',
-                    nationality: "'Tunisian'",
+                    photoUrl: AppData.bioPhotoUrl,
+                    name: AppData.bioFirstName,
+                    lastName: AppData.bioLastName,
+                    age: AppData.bioAge,
+                    nationality: AppData.bioNationality,
                   ),
                 ],
               ),

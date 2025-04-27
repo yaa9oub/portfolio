@@ -5,6 +5,7 @@ import 'package:portfolio/core/constants/colors.dart';
 import 'package:portfolio/core/constants/texts.dart';
 import 'package:portfolio/presentation/widgets/custom_divider.dart';
 import 'package:portfolio/presentation/controllers/experience_controller.dart';
+import 'package:portfolio/core/constants/app_constants.dart';
 
 class ExperiencePage extends StatelessWidget {
   const ExperiencePage({super.key});
@@ -15,7 +16,7 @@ class ExperiencePage extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isMobile = constraints.maxWidth < 600;
+        final isMobile = constraints.maxWidth < AppConstants.mobileMaxWidth;
         return Stack(
           children: [
             Positioned(
@@ -31,7 +32,7 @@ class ExperiencePage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.teal2,
-                      blurRadius: 120,
+                      blurRadius: AppConstants.smallBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -49,7 +50,7 @@ class ExperiencePage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.indigo,
-                      blurRadius: 200,
+                      blurRadius: AppConstants.mediumBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -67,7 +68,7 @@ class ExperiencePage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.teal2,
-                      blurRadius: 200,
+                      blurRadius: AppConstants.mediumBlurRadius,
                       offset: const Offset(0, 5),
                     ),
                   ],
@@ -78,8 +79,11 @@ class ExperiencePage extends StatelessWidget {
               width: Get.width,
               height: Get.height,
               padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 24 : 50,
-                vertical: 50,
+                horizontal:
+                    isMobile
+                        ? AppConstants.largePadding
+                        : AppConstants.hugePadding,
+                vertical: AppConstants.hugePadding,
               ),
               child:
                   isMobile
@@ -111,6 +115,7 @@ class ExperiencePage extends StatelessWidget {
                     controller.openFolders.entries.map((entry) {
                       final folderName = entry.key;
                       final position = entry.value;
+                      final folderInfo = controller.folderData[folderName]!;
                       return Positioned(
                         top: position.dy,
                         left: position.dx,
@@ -127,15 +132,10 @@ class ExperiencePage extends StatelessWidget {
                             color: Colors.transparent,
                             child: ExperienceContainer(
                               isMobile: isMobile,
-                              title:
-                                  controller.folderData[folderName]!["title"],
-                              description:
-                                  controller
-                                      .folderData[folderName]!["description"],
-                              skills: List<String>.from(
-                                controller.folderData[folderName]!["skills"],
-                              ),
-                              date: controller.folderData[folderName]!["date"],
+                              title: folderInfo["title"],
+                              description: folderInfo["description"],
+                              skills: List<String>.from(folderInfo["skills"]),
+                              date: folderInfo["date"],
                               onClose: () => controller.closeFolder(folderName),
                             ),
                           ),
@@ -144,15 +144,10 @@ class ExperiencePage extends StatelessWidget {
                             color: Colors.transparent,
                             child: ExperienceContainer(
                               isMobile: isMobile,
-                              title:
-                                  controller.folderData[folderName]!["title"],
-                              description:
-                                  controller
-                                      .folderData[folderName]!["description"],
-                              skills: List<String>.from(
-                                controller.folderData[folderName]!["skills"],
-                              ),
-                              date: controller.folderData[folderName]!["date"],
+                              title: folderInfo["title"],
+                              description: folderInfo["description"],
+                              skills: List<String>.from(folderInfo["skills"]),
+                              date: folderInfo["date"],
                               onClose: () => controller.closeFolder(folderName),
                             ),
                           ),
@@ -197,7 +192,7 @@ class FoldersView extends StatelessWidget {
                     controller.openFolders.containsKey(folderName)
                         ? AppColors.teal2
                         : AppColors.teal,
-                size: 70,
+                size: AppConstants.defaultIconSize,
               ),
             ),
             Text(
@@ -236,11 +231,17 @@ class ExperienceContainer extends StatelessWidget {
     return Container(
       width: isMobile ? Get.width - 10 : 700,
       height: isMobile ? 500 : 400,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppConstants.largePadding,
+        vertical: AppConstants.defaultPadding,
+      ),
       decoration: BoxDecoration(
         color: AppColors.primary.withAlpha(200),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.stroke, width: 2),
+        borderRadius: BorderRadius.circular(AppConstants.defaultBorderRadius),
+        border: Border.all(
+          color: AppColors.stroke,
+          width: AppConstants.thickBorderWidth,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,31 +258,37 @@ class ExperienceContainer extends StatelessWidget {
               GestureDetector(
                 onTap: onClose,
                 child: Container(
-                  width: 30,
-                  height: 30,
+                  width: AppConstants.mediumIconSize,
+                  height: AppConstants.mediumIconSize,
                   decoration: BoxDecoration(
                     border: Border.all(width: 1, color: AppColors.stroke),
                   ),
                   child: const Center(
-                    child: Icon(Icons.close, color: AppColors.teal),
+                    child: Icon(
+                      Icons.close,
+                      color: AppColors.teal,
+                      size: AppConstants.smallIconSize,
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppConstants.defaultBorderRadius),
           Text(
             description,
             style: AppTextStyles.bodyMedium.copyWith(
               color: AppColors.secondary,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppConstants.defaultPadding),
           CustomDivider(width: 700, thickness: 1, isVertical: false),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppConstants.defaultPadding),
           ...skills.asMap().entries.map(
             (entry) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.only(
+                bottom: AppConstants.defaultBorderRadius,
+              ),
               child: Text(
                 "> ${entry.value}",
                 style: AppTextStyles.bodyMedium.copyWith(
@@ -290,9 +297,9 @@ class ExperienceContainer extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppConstants.defaultPadding),
           CustomDivider(width: 700, thickness: 1, isVertical: false),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppConstants.defaultPadding),
           Text(
             date,
             style: AppTextStyles.bodyMedium.copyWith(color: AppColors.tertiary),
